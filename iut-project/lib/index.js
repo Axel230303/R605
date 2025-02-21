@@ -11,6 +11,5 @@ exports.plugin = {
         // Custom plugin code can go here
 
         await HauteCouture.compose(server, options);
-
     }
 };

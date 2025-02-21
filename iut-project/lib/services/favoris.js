@@ -44,4 +44,24 @@ module.exports = class FavorisService extends Service {
         console.log("Film retiré des favoris avec succès pour l'utilisateur:", userId);
     }
 
+    async getFavorisByFilmId(filmId) {
+        const { Favoris, User } = this.server.models();
+
+        // Effectuer la jointure pour récupérer les utilisateurs ayant ce film en favoris
+        const favoris = await Favoris.query()
+            .join('user', 'favoris.userId', '=', 'user.id')  // Assure-toi que la table est bien 'users'
+            .where('favoris.filmId', filmId)
+            .select('user.email', 'user.firstName');  // Récupérer l'email et le prénom des utilisateurs
+
+        if (!favoris || favoris.length === 0) {
+            console.error('Aucun favori trouvé pour ce film');
+            return [];
+        }
+
+        console.log('Favoris récupérés:', favoris);
+        const favorisData = favoris.map(favori => favori.toJSON ? favori.toJSON() : favori);
+        console.log('Favoris après conversion en objets simples:', favorisData);
+
+        return favorisData;
+    }
 };
