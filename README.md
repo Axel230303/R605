@@ -1,6 +1,5 @@
 Voici le fichier complet **`README.md`** en format Markdown, incluant toutes les informations demandées :
 
-```markdown
 # Mon Projet - API de Films
 
 Bienvenue dans ce projet d'API de gestion de films avec notifications par email et gestion des favoris. Ce README explique comment installer et configurer le projet, ainsi que comment démarrer le serveur.
@@ -154,54 +153,8 @@ Ce projet envoie des notifications par email lors de l'ajout ou de la modificati
 
 ---
 
-## 🔑 Contribuer
-
-Les contributions sont les bienvenues ! Si tu souhaites améliorer ce projet, n'hésite pas à créer une **pull request**.
-
-1. Fork le projet
-2. Crée une branche pour ta fonctionnalité
-3. Fais une pull request pour fusionner ta branche avec la branche principale
-
----
-
-## 📄 Licence
-
-Ce projet est sous licence **MIT**. Consulte le fichier [LICENSE](LICENSE) pour plus d'informations.
-
----
-
-## 📞 Contact
-
-Si tu as des questions ou des suggestions, n'hésite pas à me contacter à l'adresse :  
-**mapou03@icloud.com**.
-
----
-
 ## 📝 Explication du projet
 
 Ce projet a été conçu pour fournir une API permettant aux utilisateurs de gérer une bibliothèque de films. L'API permet aux utilisateurs d'ajouter des films, de modifier des films existants, et de les ajouter ou les retirer de leurs favoris. De plus, les utilisateurs sont notifiés par email chaque fois qu'un film est ajouté ou modifié.
 
 L'authentification est réalisée avec **JWT** pour sécuriser l'accès aux routes privées. L'envoi de notifications par email est réalisé avec **Nodemailer** et configuré pour envoyer des emails via un service comme **Ethereal** pour les tests. La base de données est gérée par **Knex.js**, qui permet une abstraction avec MySQL.
-
----
-
-## ✅ Résumé des étapes :
-
-- **Installer les dépendances** : `npm install` ou `yarn install`
-- **Configurer le fichier `.env`** pour définir les variables nécessaires (base de données, JWT, email).
-- **Lancer le serveur** avec `npm start` ou `yarn start`.
-- **Utiliser les routes disponibles** pour gérer les films et les favoris des utilisateurs.
-
-🚀 **Essaie cela et dis-moi si tu rencontres d'autres questions ou modifications à apporter !** 😊
-```
-
----
-
-### 📌 **Détails du README** :
-- **Les étapes d'installation** : Comment cloner le projet, installer les dépendances et configurer le fichier `.env`.
-- **Les routes disponibles** : Détails sur les routes API avec les informations nécessaires pour chaque méthode.
-- **Technologies utilisées** : Outils et bibliothèques utilisées dans ce projet.
-- **Instructions pour contribuer** : Comment contribuer à l'amélioration du projet via des pull requests.
-- **Explication du projet** : Contexte et objectifs du projet avec des détails sur l'implémentation.
-
-Tu peux copier ce code directement dans ton fichier **`README.md`** à la racine de ton projet. 🚀
