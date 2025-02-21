@@ -61,19 +61,14 @@ PORT=3000
 # Configuration de la base de données
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=your_database_password
+DB_PASSWORD=hapi
 DB_NAME=user
 
 # Configuration du serveur de mails (exemple avec Ethereal)
-MAIL_HOST=smtp.ethereal.email
-MAIL_PORT=587
-MAIL_USER=your_ethereal_email@example.com
-MAIL_PASS=your_ethereal_password
-
-# Clé JWT pour l'authentification
-JWT_SECRET=your_jwt_secret_key
-
-# Autres variables selon ton besoin
+EMAIL_HOST=smtp.ethereal.email
+EMAIL_PORT=587
+EMAIL_USER=(créer un utilisateur ethereal)
+EMAIL_PASS=(récupérer le mot de passe du compte ethereal crée)
 ```
 
 - **DB_HOST** : L'adresse de ton serveur MySQL.
@@ -81,7 +76,6 @@ JWT_SECRET=your_jwt_secret_key
 - **DB_PASSWORD** : Le mot de passe de la base de données.
 - **DB_NAME** : Le nom de la base de données.
 - **MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PASS** : Les informations nécessaires pour envoyer des emails via **Ethereal** ou un autre service d'email.
-- **JWT_SECRET** : Une clé secrète pour l'authentification avec JWT (utilise un string aléatoire pour la sécurité).
 
 ---
 
