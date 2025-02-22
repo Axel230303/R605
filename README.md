@@ -1,5 +1,3 @@
-Voici le fichier complet **`README.md`** en format Markdown, incluant toutes les informations demandées :
-
 # Mon Projet - API de Films
 
 Bienvenue dans ce projet d'API de gestion de films avec notifications par email et gestion des favoris. Ce README explique comment installer et configurer le projet, ainsi que comment démarrer le serveur.
