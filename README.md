@@ -9,7 +9,7 @@ Bienvenue dans ce projet d'API de gestion de films avec notifications par email 
 Avant de commencer, assure-toi d'avoir installé ces outils :
 
 - **Node.js** (version 14 ou supérieure) : [Télécharger Node.js](https://nodejs.org/)
-- **MySQL** ou **MariaDB** (si tu utilises une base de données SQL) : [Télécharger MySQL](https://dev.mysql.com/downloads/installer/)
+- **MySQL** ou **MariaDB** [Télécharger MySQL](https://dev.mysql.com/downloads/installer/)
 - **Git** : [Télécharger Git](https://git-scm.com/)
 
 ---
@@ -18,7 +18,7 @@ Avant de commencer, assure-toi d'avoir installé ces outils :
 
 ### 1. **Cloner le dépôt**
 
-Clone ce projet sur ton machine locale en utilisant la commande suivante :
+Clone ce projet sur ta machine locale en utilisant la commande suivante :
 
 ```bash
 git clone https://github.com/Axel230303/R605.git
@@ -34,7 +34,7 @@ cd R605
 
 ### 3. **Installer les dépendances**
 
-Dans le dossier du projet, installe les dépendances avec **npm** ou **yarn** :
+Installe les dépendances avec **npm** ou **yarn** :
 
 ```bash
 npm install
@@ -45,6 +45,40 @@ yarn install
 ```
 
 Cela installera toutes les bibliothèques et outils nécessaires pour faire fonctionner l'API.
+
+---
+Pour lancer les conteneurs **MySQL** et **RabbitMQ** avec Docker, ajoute les commandes suivantes dans ton README sous une nouvelle section **Déploiement avec Docker**.
+
+---
+
+## 🐳 Déploiement avec Docker
+
+Si tu veux utiliser Docker pour simplifier la gestion des services nécessaires à l’API, tu peux lancer les conteneurs suivants :
+
+### 1️⃣ Lancer un conteneur MySQL
+
+```bash
+docker run --name hapi-mysql -e MYSQL_ROOT_PASSWORD=hapi -e MYSQL_DATABASE=user -p 3307:3306 -d mysql:8.0
+```
+
+- **`--name hapi-mysql`** : Nom du conteneur MySQL
+- **`-e MYSQL_ROOT_PASSWORD=hapi`** : Mot de passe root
+- **`-e MYSQL_DATABASE=user`** : Création automatique de la base `user`
+- **`-p 3307:3306`** : Expose MySQL sur le port **3307** en local (car le port **3306** peut être occupé)
+- **`-d mysql:8.0`** : Utilisation de l’image **MySQL 8.0** en mode détaché
+
+---
+
+### 2️⃣ Lancer un conteneur RabbitMQ
+
+```bash
+docker run --name rabbitmq -p 15672:15672 -p 5672:5672 -d rabbitmq:management
+```
+
+- **`--name rabbitmq`** : Nom du conteneur RabbitMQ
+- **`-p 15672:15672`** : Expose l’interface d’administration sur **localhost:15672**
+- **`-p 5672:5672`** : Expose le port par défaut pour la communication entre services
+- **`-d rabbitmq:management`** : Utilisation de l’image **RabbitMQ avec l’interface de gestion** en mode détaché
 
 ---
 
@@ -73,13 +107,13 @@ EMAIL_PASS=(récupérer le mot de passe du compte ethereal crée)
 - **DB_USER** : Le nom d'utilisateur de la base de données.
 - **DB_PASSWORD** : Le mot de passe de la base de données.
 - **DB_NAME** : Le nom de la base de données.
-- **MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PASS** : Les informations nécessaires pour envoyer des emails via **Ethereal** ou un autre service d'email.
+- **EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS** : Les informations nécessaires pour envoyer des emails via **Ethereal** ou un autre service d'email.
 
 ---
 
 ## 🏃‍♂️ Lancer le serveur
 
-Une fois les dépendances installées et le fichier `.env` configuré, tu peux lancer le serveur avec la commande suivante :
+Une fois les dépendances installées et le fichier `.env` configuré, lance le serveur avec la commande suivante :
 
 ```bash
 npm start
@@ -89,48 +123,57 @@ ou
 yarn start
 ```
 
-Cela démarrera le serveur sur le port **3000** (ou un autre port si tu as configuré le `.env`).
+Le serveur démarre sur le port **3000** (ou le port défini dans le `.env`).
 
 ---
 
 ## 📧 Notifications par email
 
 Ce projet envoie des notifications par email lors de l'ajout ou de la modification de films :
-
-- Lorsqu'un **nouveau film est ajouté**, tous les utilisateurs seront notifiés par email.
-- Lorsqu'un **film est modifié**, tous les utilisateurs ayant ce film en favoris recevront une notification.
+- Lorsqu'un **nouveau film est ajouté**, tous les utilisateurs sont notifiés par email.
+- Lorsqu'un **film est modifié**, les utilisateurs ayant ce film en favoris reçoivent une notification.
 
 ---
 
 ## 🧑‍💻 Routes disponibles
 
 ### 📌 **POST /films**
-- **Description** : Permet d'ajouter un nouveau film à la base de données.
+- **Description** : Ajoute un nouveau film à la base de données.
 - **Données attendues** :
-  - `titre`: Le titre du film.
-  - `description`: La description du film.
-  - `dateSortie`: La date de sortie du film.
-  - `realisateur`: Le réalisateur du film.
+  - `titre` : Le titre du film.
+  - `description` : La description du film.
+  - `dateSortie` : La date de sortie du film.
+  - `realisateur` : Le réalisateur du film.
 
 ### 📌 **PATCH /films/{id}**
-- **Description** : Permet de modifier un film existant.
+- **Description** : Modifie un film existant.
 - **Paramètres** :
-  - `id`: L'ID du film à modifier.
+  - `id` : L'ID du film à modifier.
 - **Données attendues** :
-  - `titre`, `description`, `dateSortie`, `realisateur` : Ces champs sont optionnels et permettent de modifier les informations du film.
+  - `titre`, `description`, `dateSortie`, `realisateur` : Champs optionnels pour la mise à jour.
 
 ### 📌 **POST /favoris**
 - **Description** : Ajoute un film aux favoris pour un utilisateur spécifique.
 - **Données attendues** :
-  - `userId`: L'ID de l'utilisateur pour lequel ajouter le favori.
-  - `filmId`: L'ID du film à ajouter aux favoris.
+  - `userId` : L'ID de l'utilisateur.
+  - `filmId` : L'ID du film à ajouter aux favoris.
 
 ### 📌 **DELETE /favoris/{filmId}**
 - **Description** : Retire un film des favoris pour un utilisateur spécifique.
 - **Paramètres** :
-  - `filmId`: L'ID du film à retirer des favoris.
+  - `filmId` : L'ID du film à retirer.
 - **Données attendues** :
-  - `userId`: L'ID de l'utilisateur pour lequel retirer le favori.
+  - `userId` : L'ID de l'utilisateur.
+
+### 📌 **POST /films/export**
+- **Description** : Permet à un administrateur de demander un export CSV de l'ensemble des films présents dans la base de données.
+- **Fonctionnement** :
+  - Accessible uniquement aux utilisateurs ayant le rôle **admin**.
+  - La requête **n'envoie pas** directement le fichier CSV dans la réponse HTTP.
+  - Le fichier CSV est ensuite envoyé par email, en pièce jointe, à l'administrateur ayant effectué la demande.
+  - Ajout de cette fonctionnalité d'export CSV.
+  - Intégration d'un message broker pour l'envoi asynchrone du fichier CSV.
+  - Renforcement de la sécurité en restreignant l'accès à cette route aux seuls administrateurs.
 
 ---
 
@@ -147,6 +190,8 @@ Ce projet envoie des notifications par email lors de l'ajout ou de la modificati
 
 ## 📝 Explication du projet
 
-Ce projet a été conçu pour fournir une API permettant aux utilisateurs de gérer une bibliothèque de films. L'API permet aux utilisateurs d'ajouter des films, de modifier des films existants, et de les ajouter ou les retirer de leurs favoris. De plus, les utilisateurs sont notifiés par email chaque fois qu'un film est ajouté ou modifié.
+Ce projet a été conçu pour fournir une API permettant aux utilisateurs de gérer une bibliothèque de films. L'API permet d'ajouter, modifier et supprimer des films, ainsi que de gérer une liste de favoris pour chaque utilisateur. Les notifications par email interviennent lors de l'ajout ou de la modification d'un film, assurant une communication efficace avec les utilisateurs.
 
-L'authentification est réalisée avec **JWT** pour sécuriser l'accès aux routes privées. L'envoi de notifications par email est réalisé avec **Nodemailer** et configuré pour envoyer des emails via un service comme **Ethereal** pour les tests. La base de données est gérée par **Knex.js**, qui permet une abstraction avec MySQL.
+### Nouveautés récentes
+- **Export CSV** : Un nouvel endpoint `/films/export` a été ajouté pour permettre aux administrateurs d'exporter la liste complète des films au format CSV. Ce fichier n'est pas retourné directement via la réponse HTTP, mais est généré par un message broker et envoyé par email en pièce jointe à l'administrateur ayant initié la demande.
+- **Message Broker** : Cette intégration permet de gérer de manière asynchrone l'envoi des exports, améliorant ainsi la scalabilité et la sécurité du système.
