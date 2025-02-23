@@ -191,7 +191,3 @@ Ce projet envoie des notifications par email lors de l'ajout ou de la modificati
 ## 📝 Explication du projet
 
 Ce projet a été conçu pour fournir une API permettant aux utilisateurs de gérer une bibliothèque de films. L'API permet d'ajouter, modifier et supprimer des films, ainsi que de gérer une liste de favoris pour chaque utilisateur. Les notifications par email interviennent lors de l'ajout ou de la modification d'un film, assurant une communication efficace avec les utilisateurs.
-
-### Nouveautés récentes
-- **Export CSV** : Un nouvel endpoint `/films/export` a été ajouté pour permettre aux administrateurs d'exporter la liste complète des films au format CSV. Ce fichier n'est pas retourné directement via la réponse HTTP, mais est généré par un message broker et envoyé par email en pièce jointe à l'administrateur ayant initié la demande.
-- **Message Broker** : Cette intégration permet de gérer de manière asynchrone l'envoi des exports, améliorant ainsi la scalabilité et la sécurité du système.
