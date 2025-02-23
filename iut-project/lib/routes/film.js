@@ -1,6 +1,7 @@
 'use strict';
 
 const Joi = require('joi');
+const MessageBroker = require('../services/messageBroker');
 
 module.exports = [
     {
@@ -83,6 +84,28 @@ module.exports = [
         handler: async (request, h) => {
             const { filmService } = request.services();
             return await filmService.getAll();
+        }
+    },
+    {
+        method: 'POST',
+        path: '/films/export',
+        options: {
+            tags: ['api'],
+            auth: {scope: ['admin']},
+            handler: async (request, h) => {
+                try {
+                    const {filmService} = request.services();
+                    const filePath = await filmService.exportFilmsToCSV();
+
+                    // Utiliser directement MessageBroker.sendMessage
+                    await MessageBroker.sendMessage('csv_exports', {filePath, email: request.auth.credentials.email});
+
+                    return h.response({message: "Export en cours. Vous recevrez un email sous peu."}).code(202);
+                } catch (error) {
+                    console.error("Erreur lors de l'export :", error);
+                    return h.response({error: "Erreur lors de l'export des films."}).code(500);
+                }
+            }
         }
     }
 ];

@@ -82,4 +82,20 @@ module.exports = class MailService extends Service {
             console.error("Erreur lors de l'envoi de l'e-mail :", error);
         }
     }
+
+    async sendCSVByEmail(email, filePath) {
+        try {
+            const info = await this.transporter.sendMail({
+                from: '"TWO Piece" <no-reply@two-piece.com>',
+                to: email,
+                subject: "Export CSV des films",
+                text: "Veuillez trouver en pièce jointe l’export des films.",
+                attachments: [{ filename: 'films.csv', path: filePath }]
+            });
+
+            console.log(`E-mail envoyé : ${info.messageId}`);
+        } catch (error) {
+            console.error("Erreur lors de l'envoi de l'e-mail :", error);
+        }
+    }
 };

@@ -2,6 +2,9 @@
 
 const { Service } = require('@hapipal/schmervice');
 const Boom = require('@hapi/boom');
+const { Parser } = require('json2csv');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = class FilmService extends Service {
 
@@ -104,5 +107,29 @@ module.exports = class FilmService extends Service {
     async getAll() {
         const { Film } = this.server.models();
         return await Film.query();
+    }
+
+    async exportFilmsToCSV() {
+        const { Film } = this.server.models();
+        const films = await Film.query();
+
+        if (!films || films.length === 0) {
+            throw new Error("Aucun film trouvé pour l'export.");
+        }
+
+        // Vérifier que le dossier 'exports' existe, sinon le créer
+        const exportDir = path.join(__dirname, '../exports'); // Assurez-vous que le chemin est correct
+        if (!fs.existsSync(exportDir)) {
+            fs.mkdirSync(exportDir, { recursive: true }); // Créer le dossier s'il n'existe pas
+        }
+
+        // Générer le fichier CSV
+        const parser = new Parser();
+        const csv = parser.parse(films);
+
+        const filePath = path.join(exportDir, `films_${Date.now()}.csv`);
+        fs.writeFileSync(filePath, csv);
+
+        return filePath;
     }
 };
